@@ -1,0 +1,52 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[text={16cm, 25cm}, centering, footskip=10pt]{geometry}
+\usepackage{fontspec}
+\usepackage{xltxtra}
+\usepackage{ctable}
+\usepackage{tabularx}
+\setmainfont{Times New Roman}
+\pagestyle{empty}
+\begin{document}
+\begin{center}
+{\huge Παλαμήδης}\\
+{\footnotesize Version 0.9.1 }\\ 
+\vspace{.5cm}
+{\large Πολυτονικόν πληκτρολόγιον γιὰ Microsoft Windows}\\
+\paragraph{}
+\newcolumntype{C}{>{\centering\arraybackslash}X}
+{\large
+\begin{tabularx}{12cm}{lcC}
+\toprule
+\multicolumn{3}{c}{Τονισμὸς}                     \\\midrule
+\multicolumn{2}{c}{Σύμβολον}          & Πλῆκτρον \\\midrule%
+      Ὀξεῖα                          & ά    &  \texttt{/}               \\
+      Βαρεῖα                         & ὰ    &  $\backslash$    \\
+      Περισπωμένη                    & ᾶ    &  $\sim$ ἤ =      \\
+      Ψιλή                           & ἀ    &  \texttt{]}             \\
+      Δασεῖα                         & ἁ    &  \texttt{[}             \\\midrule
+      \multicolumn{3}{c}{Σημεῖα στίξεως καὶ ἄλλα  σύμβολα}\\\midrule
+      Διαλυτικά                      & ϊ    &  {\tt "}        \\
+      Ὑπογεγραμμένη                  & ᾳ    &  $|$             \\
+      Μακρόν                         & ᾱ    &  $-$              \\
+      Βραχύ                          & ᾰ    &  \textasciicircum\\ 
+      Ἄνω Τελεία                     & ·    &  \texttt{;{\Large .}}\\
+      Εὐρῶ                           &  €   &  \texttt{;\$}       \\
+      Ἀριστερὰ Εἰσαγωγικά            &  «   &  \texttt{;{<}}      \\
+      Δεξιὰ Εἰσαγωγικά,              &      &            \\
+      { }{ }{ }ὁμοιωματικά           &  »   &  \texttt{;{>}}      \\
+      Ἀπόστροφος                     &  ᾽   &  \texttt{;'}  \\
+      Παῦλα τύπου en-dash            &  –   &  \texttt{;-}    \\
+      Παῦλα τύπου em-dash            &  —   &  \texttt{;{\_}} \\
+      Ἄνω τόνος, κεραία              &  αʹ  &  \texttt{;\#}      \\
+      Κάτω τόνος, χιλιάδες           & ͵α   &  \texttt{;{\small SHIFT}\#}    \\
+      Συντομογραφία «καὶ»            &  ϗ   &  ;κ      \\
+      Στίγμα                         &  Ϛ   &  ;σ      \\
+      Δίγαμμα                        &  Ϝ   &  ;φ       \\
+      Ἀρχαϊκὴ Κόππα                  &  ϙ   &  ;q      \\
+      Βυζαντινὴ Κόππα                &  Ϟ   &  ;Q       \\
+      Σαμπί                          &  Ϡ   &  ;π      \\\bottomrule
+\end{tabularx}
+}
+\end{center}  
+\tiny{proteuss@sdf.lonestar.org}
+\end{document}

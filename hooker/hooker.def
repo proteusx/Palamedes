@@ -1,0 +1,7 @@
+LIBRARY HOOKER.DLL 
+
+EXPORTS
+
+  installhook
+  removehook
+  hookproc

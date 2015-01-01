@@ -1,0 +1,15 @@
+
+//-------------------
+// About Dialog 
+//-------------------
+IDD_ABOUTDIALOG DIALOGEX 0, 0, 147, 67
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    ICON            IDI_APPICON,IDC_STATIC,7,7,20,20
+    LTEXT           "Palamedes Polytonic Typing Aid",IDC_STATIC,34,7,86,8
+    LTEXT           "©2013 Proteus",IDC_STATIC,34,17,68,8
+    DEFPUSHBUTTON   "OK",IDOK,90,46,50,14,WS_GROUP
+END
+ 
