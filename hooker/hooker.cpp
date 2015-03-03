@@ -72,6 +72,12 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
       localeID = GetKeyboardLayout(tid);
       if (LOBYTE(LOWORD((DWORD)localeID)) != LANG_GREEK)  
         return  CallNextHookEx(hook,ncode,wparam,lparam);
+      
+      //----------------------------------
+      // Begin processing key
+      //----------------------------------
+      GetKeyState(0);                      // Needed because of an API bug.
+      GetKeyboardState(ks);
 
       //----------------------------------
       // hooked = 0: Not a trapped key.
@@ -98,12 +104,6 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
         w[1] = w[0] = '\0';
         return  CallNextHookEx(hook,ncode,wparam,lparam);
       }
-      
-      //----------------------------------
-      // Begin processing key
-      //----------------------------------
-      GetKeyState(0);                      // Needed because of an API bug.
-      GetKeyboardState(ks);
       
       //----------------------------------
       // Test for dead keys. (;, : or W)
@@ -236,7 +236,21 @@ int hooked_key(DWORD test_key)
 
   i=0;
   do {
-        if ( accent_keys[i] == test_key) return 2;
+        if ( accent_keys[i] == test_key ) 
+        {
+          if ( (test_key == 0X36) || (test_key == 0XC0) )
+          { 
+            if (ks[VK_SHIFT] & 0X80)
+            { 
+              return 2; 
+            }
+            else
+            {
+              break;
+            }
+          }
+          return 2;
+        }
         i++;
   } while (accent_keys[i] != 0X0);
 
@@ -244,7 +258,7 @@ int hooked_key(DWORD test_key)
   do {
         if ( movement[i] == test_key) return 3;
         i++;
-  } while (accent_keys[i] != 0X0);
+  } while (movement[i] != VK_DELETE);
   return 0; 
 }
 
