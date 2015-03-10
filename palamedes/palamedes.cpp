@@ -1,15 +1,16 @@
 /*
- * =================================================================================
+ * =============================================================================
  *
  *       Filename:  palamedes.cpp
  *
- *    Description:  Polytonic Greek typing utility
+ *    Description:  Polytonic Greek Typing Utility
  *
- *        Version:  0.9.1
- *        Created:  04/28/2013 08:41:13 AM
+ *        Version:  1.0.0
+ *        Created:  28/04/2013 
+ *        Modified  10/03/2015
  *       Compiler:  gcc
  *
- * =================================================================================
+ * =============================================================================
  */
 
 
@@ -113,7 +114,7 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
           else 
           { 
             hooked = !removehook(hook);
-            if (hooked)   // Error: Failed to remove hook
+            if (hooked)                // Error: Failed to remove hook
             {
                 MessageBox(NULL,LPCSTR("Unable to remove hook"),LPCSTR("Error!"),MB_OK);
                 CheckDlgButton(hwnd, ID_CHECK, BST_CHECKED); 
@@ -131,7 +132,9 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
         case ID_OK:   ShowWindow(hwnd, SW_HIDE); break;
         case ID_ABOUT:               
           {
-            MessageBox(NULL,LPCSTR("Palamedes.\n\nPolytonic Typing Aid.\nVersion: 0.9.1-GCC"),LPCSTR("About Palamedes"),MB_OK);
+            // The compiler concatenates succesive strings "......""......"
+            // So VERSION will be concatenate with the rest of the message.
+            MessageBox(NULL,LPCSTR("     Palamedes\n\nPolytonic Typing Aid\n\nVersion: "VERSION),LPCSTR("About Palamedes"),MB_OK);
             return 0;
           }
         case ID_HELP: ShellExecute(NULL, NULL, 
@@ -172,8 +175,8 @@ void ShowContextMenu(HWND hWnd)
 		InsertMenu(hMenu, -1, MF_BYPOSITION | MF_SEPARATOR, 0, NULL);
 		InsertMenu(hMenu, -1, MF_BYPOSITION, ID_EXIT, LPCSTR("Exit"));
 
-		// note:	must set window to the foreground or the
-		//			menu won't disappear when it should
+		// NOTE:	must set window to the foreground or the
+		//			  menu won't disappear when it should
 		SetForegroundWindow(hWnd);
 		TrackPopupMenu(hMenu, TPM_BOTTOMALIGN,
 			              pt.x, pt.y, 0, hWnd, NULL );

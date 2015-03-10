@@ -1,14 +1,24 @@
-/*******************************************/
-/* hooker.cpp                              */
-/* hook, unhook and hook handler functions */
-/*******************************************/
+/*
+ * ============================================================================
+ *
+ *       Filename:  hooker.cpp
+ *
+ *    Description:  hook, unhook and keyboard handler functions
+ *
+ *        Version:  1.0.0
+ *        Created:  10/03/2015 
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ * ============================================================================
+ */
 
 #define HOOK_EXPORTS
 #include "hooker.h"
 
 /*-----------------------------------------------------------------------------
  *                        DLL entry point.   
- *-----------------------------------------------------------------------------*/
+ *----------------------------------------------------------------------------*/
   // Uncomment if in Visual Studio
   // BOOL APIENTRY DllMain( HANDLE hModule, 
 int main( HANDLE hModule, 
@@ -22,13 +32,13 @@ int main( HANDLE hModule,
 
 /*-----------------------------------------------------------------------------
  *                        Hook the keyboard. 
- *-----------------------------------------------------------------------------*/
+ *----------------------------------------------------------------------------*/
 HOOKDLL_API HHOOK installhook()
 {
     hook = SetWindowsHookEx(
            WH_KEYBOARD_LL,                   // Low Level keyboard hook
            hookproc,                         // The hook hander procedure
-           // This param could be just  "hinstance" 
+           // Next parameter should be just  "hinstance" 
            // but it returns no handle in XP.
            // Thus we pass the handle of an already 
            // loaded module by invoking LoadLibrary. 
@@ -59,212 +69,187 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
   KBDLLHOOKSTRUCT* key = (KBDLLHOOKSTRUCT*)lparam;
   if ((ncode == HC_ACTION) && ((wparam == WM_SYSKEYDOWN) || (wparam == WM_KEYDOWN)))      
 	{ 
-      DWORD vkey = key->vkCode;
       DWORD tid = GetWindowThreadProcessId(GetForegroundWindow(),0);
       lpgui.cbSize = sizeof(GUITHREADINFO);
       GetGUIThreadInfo( tid, &lpgui );
       target_window = lpgui.hwndFocus;
 
       //----------------------------------
-      // What keyboard is on?
       // Return unless Greek keyboard
       //----------------------------------
       localeID = GetKeyboardLayout(tid);
       if (LOBYTE(LOWORD((DWORD)localeID)) != LANG_GREEK)  
-        return  CallNextHookEx(hook,ncode,wparam,lparam);
+        return  NEXT_HOOK;
       
       //----------------------------------
       // Begin processing key
       //----------------------------------
+      DWORD vkey = key->vkCode;
       GetKeyState(0);                      // Needed because of an API bug.
-      GetKeyboardState(ks);
+      GetKeyboardState(ks);                // Read the keyboard state  
+
 
       //----------------------------------
-      // hooked = 0: Not a trapped key.
-      // --//-- = 1: Vowel or special symbol. 
-      // --//-- = 2: an post placed accent key.
-      // --//-- = 3: A movement key.
+      //      Movement keys 
       //----------------------------------
-      int hooked = hooked_key(vkey);
-
+      // If moved away from the typed character 
+      // our character buffer has no meaning.
+      // Reset temp char buffer and return
       //----------------------------------
-      // Return unless vkey is one of 
-      // the trapped keys
-      //----------------------------------
-      if (!hooked)
-        return  CallNextHookEx(hook,ncode,wparam,lparam);
-
-      //----------------------------------
-      // If a movement key character buffer 
-      // has no meaning.
-      // So reset temp char buffer and return.
-      //----------------------------------
-      if (hooked == 3)    // 3 = a movement key
+      for (i=0; i < 9 ; i++)
       {
-        w[1] = w[0] = '\0';
-        return  CallNextHookEx(hook,ncode,wparam,lparam);
+        if ( movement[i] == vkey)
+          {
+            w[1] = w[0] = '\0';
+            return NEXT_HOOK;
+          }
       }
-      
+
       //----------------------------------
-      // Test for dead keys. (;, : or W)
+      // Test for dead keys (;, : or W)
+      //----------------------------------
       // If a dead key, store the accent and return.
       // It will be put on the next character, if pertinent.
       //
       // ; -> 1   Tonos
       // : -> 2   Dialytika
-      // W -> 3   Dialytika - Tonos
+      // W -> 3   Dialytika and Tonos
       //----------------------------------
-      if (vkey == VK_OEM_1)                            // Test for ; or :
+      if (vkey == VK_OEM_1)                                 // Test for ; or :
       {   
         (ks[VK_SHIFT] & 0X80)? dead_key = 2: dead_key = 1;
-        return 1;                                      // Gobble up the key.
+        return NO_KEY;                                      // Gobble up the key
       }
-      if ((vkey==0X57) && (ks[VK_SHIFT] & 0X80))       // test for SHIFT-W
+      if ((vkey==0X57) && (ks[VK_SHIFT] & 0X80))            // test for SHIFT-W
       {     
         dead_key = 3;
-        return 1;
+        return NO_KEY;
       }
 
-      //----------------------------------
-      // If a dead key has been stored
-      // emit the appropriate accented vowel
-      // or special symbol
-      //----------------------------------
-      if (dead_key)                                    // If accent key has
-      {                                                // has been pressed,
-        BOOL shifted = (ks[VK_SHIFT] & 0X80)           // Capital? 
-                            || 
-                      (ks[VK_CAPITAL] & 0X01);        
-        switch (vkey)                                  // Put accent on vowel.
+      //--------------------------------------------------
+      //          Test for vowels.
+      //--------------------------------------------------
+      for (i=0; i < 20 ; i++)
+      {
+        if ( vowels[i] == vkey) 
         {
-          case 0X41 : shifted ? w[0] = 0X386 : w[0] = 0X3AC; break;             // A
-          case 0X45 : shifted ? w[0] = 0X388 : w[0] = 0X3AD; break;             // E
-          case 0X48 : shifted ? w[0] = 0X389 : w[0] = 0X3AE; break;             // H
-          case 0X49 : switch (dead_key)                                         // I
-                      {                                
-                        case 1: shifted ? w[0] = 0X38A : w[0] = 0X3AF; break;
-                        case 2: shifted ? w[0] = 0X3AA : w[0] = 0X3CA; break;
-                        case 3: w[0] = 0X390; break;
-                      } break;
-          case 0X4f : shifted ? w[0] = 0X38C : w[0] = 0X3CC; break;             // O
-          case 0X59 : switch (dead_key)                                         // Y
-                      {
-                        case 1: shifted ? w[0] = 0X38E : w[0] = 0X3CD; break;
-                        case 2: shifted ? w[0] = 0X3AB : w[0] = 0X3CB; break;
-                        case 3: w[0] = 0X3B0; break;
-                      } break;
-          case 0X56 : shifted ? w[0] = 0X38F : w[0] = 0X3CE; break;     // V (Omega)
-          //----------------------------------------------
-          // Special symbols entered with the dead key.
-          //----------------------------------------------
-          case 0X51 : shifted ? w[0] = 0X3Df : w[0] = 0X3D9; break;  // Q (kopa)
-          case 0X53 : shifted ? w[0] = 0X3DA : w[0] = 0X3DB; break;  // S (stigma)
-          case 0X4B : w[0] = 0X3D7; break;                           // K (kai)
-          case 0X50 : shifted ? w[0] = 0X3E1 : w[0] = 0X3E0; break;  // P (sampi)
-          case 0X46 : shifted ? w[0] = 0X3DC : w[0] = 0X3DD; break;  // F (digamma)
-          case 0X34 : w[0] = 0X20AC; break;                          // $ (Euro)
-          case 0XDE : w[0] = 0X1FBD; break;                        // ' Apostrophos
-                    // next key (. or >) (this key is for ano teleia and  R. eisag )
-          case 0XBE : shifted ? w[0] = 0XBB : w[0] = 0X387; break;   
-          case 0X33 : shifted ? w[0] = 0X375 : w[0] = 0X374; break;  // # (keraies)
-          case 0XBD : shifted ? w[0] = 0X2014 : w[0] = 0X2013; break; // - (pavles)
-          case 0XBC : if(shifted) w[0] = 0XAB; else  return 0; break; //< (L eisag.)
-          default:    dead_key = 0; return 0;
-        }
-        PostMessage ( target_window, 
-            WM_CHAR, (WCHAR)w[0], MakeLp(key->scanCode, key->flags));
-        dead_key = 0;      // Reset dead key flag and print character
-        // Save accented character in case is needed
-        //         to add further decorations
-        w[1] = w[0];       
-        return 1;
-      }
+          //----------------------------------------------------------------
+          // Break out of the loop if the key ' (") or "-"
+          // do not follow the dead key (;) 
+          // They are post placed accents (dialytika or macron)
+          // and they dealt with by the next loop.
+          //----------------------------------------------------------------
+          if ( ( (vkey == 0XDE) || (vkey == 0XBD) ) && (!dead_key) ) break;
+          
+          //----------------------------------
+          // If a dead key has been stored
+          // from the previous keypress
+          // emit the appropriate accented vowel
+          // or special symbol
+          //----------------------------------
+          if (dead_key)                                   
+          {                                              
+            // SHIFT key or CAPS LOCK has been pressed?
+            // Set caps flag 
+            BOOL caps = (ks[VK_SHIFT] & 0X80)   || (ks[VK_CAPITAL] & 0X01); 
+            switch (vkey)                                  
+            {
+              case 0X41 : caps ? w[0] = 0X386 : w[0] = 0X3AC; break;  // A
+              case 0X45 : caps ? w[0] = 0X388 : w[0] = 0X3AD; break;  // E
+              case 0X48 : caps ? w[0] = 0X389 : w[0] = 0X3AE; break;  // H
+              case 0X49 : switch (dead_key)                           // I
+                          {                                
+                            case 1: caps ? w[0] = 0X38A : w[0] = 0X3AF; break;
+                            case 2: caps ? w[0] = 0X3AA : w[0] = 0X3CA; break;
+                            case 3: w[0] = 0X390; break;
+                          } break;
+              case 0X4f : caps ? w[0] = 0X38C : w[0] = 0X3CC; break;      // O
+              case 0X59 : switch (dead_key)                               // Y
+                          {
+                            case 1: caps ? w[0] = 0X38E : w[0] = 0X3CD; break;
+                            case 2: caps ? w[0] = 0X3AB : w[0] = 0X3CB; break;
+                            case 3: w[0] = 0X3B0; break;
+                          } break;
+              case 0X56 : caps ? w[0] = 0X38F : w[0] = 0X3CE; break; // V (Omega)
+              //----------------------------------------------
+              // Special symbols entered with the dead key.
+              //----------------------------------------------
+              case 0X51 : caps ? w[0] = 0X3Df : w[0] = 0X3D9; break;  // Q (kopa)
+              case 0X53 : caps ? w[0] = 0X3DA : w[0] = 0X3DB; break;  // S (stigma)
+              case 0X4B : w[0] = 0X3D7; break;                        // K (kai)
+              case 0X50 : caps ? w[0] = 0X3E1 : w[0] = 0X3E0; break;  // P (sampi)
+              case 0X46 : caps ? w[0] = 0X3DC : w[0] = 0X3DD; break;  // F (digamma)
+              case 0X34 : w[0] = 0X20AC; break;                       // $ (Euro)
+                        // next key (. or >) (this key is for ano teleia and  R. eisag )
+              case 0XBE : caps ? w[0] = 0XBB : w[0] = 0X387; break;   
+              case 0X33 : caps ? w[0] = 0X375 : w[0] = 0X374; break;  // # (keraies)
+              case 0XBC : if(caps) w[0] = 0XAB; else  return NEXT_HOOK; break; //< (L eisag.); 
+              case 0XDE : w[0] = 0X1FBD; break;                        // ' Apostrophos
+              case 0XBD : caps ? w[0] = 0X2014 : w[0] = 0X2013; break; // - (pavles)
+              // Return hook if no appropriate key is found
+              default:    dead_key = 0; return NEXT_HOOK;  
+            } // -- End case
+            PRINT(w[0]);
+            dead_key = 0;       // Reset dead key flag and print character
+            // Save accented character in case is needed
+            //         to add further decorations
+            w[1] = w[0];       
+            return NO_KEY;  // We have allready printed our character 
+          } //-- End if dead_key
+          // If no dead key is on, it must be an ordinary voweel.
+          // Convert vowel to UCS 0XHHHH.
+          UCS(w);
+          // Store vowel in case we need to decorate it
+          w[1] = w[0];         
+          return NEXT_HOOK;
+        } // -- End if vowel[i]
+      } // -- end for i 
       
       //--------------------------------------------------
-      //      Deal with accent keys.
+      //       Test for accent keys.
+      //  If key is a post placed accent
       //--------------------------------------------------
-      if (hooked == 2)    // If hooked key is an post placed accent
+      for (i=0; i < 9 ; i++)
       {
-        WCHAR accent_char[2];
-        ToUnicodeEx(vkey, key->scanCode, ks, (LPWSTR)accent_char, 1, 0, localeID);
-        accent_char[1]=L'\0';
-        //FIXME remove type casting.
-        w[0] = put_accent ( (unsigned int)w[1], (unsigned char)accent_char[0] );  
-        if (w[0] == w[1]) return 1;       // Could not put the accent, do nothing.
-        backspace();                      // Delete previous character.
-        PostMessage (target_window,               
-            WM_CHAR, (WCHAR)w[0], MakeLp(key->scanCode, key->flags));
-        w[1] = w[0];
-        return 1;
-      }
+        if ( accent_keys[i] == vkey ) 
+        {
+          /* keys '^' and '~' must be shifted or we loose '6' and '`' */
+          if ( 
+              ( (vkey == 0X36) || (vkey == 0XC0)) 
+                                   && 
+                        ( !(ks[VK_SHIFT] & 0X80) )
+             ) return NEXT_HOOK;
 
-      //--------------------------------------------------
-      //      Process the vowels.
-      //--------------------------------------------------
-      if (hooked == 1)      
-      {
-        // Convert to unicode 0Xhhhh.
-        ToUnicodeEx(vkey, key->scanCode, ks, (LPWSTR)w, 1, 0, localeID);
-        // PostMessage (target_window,               
-        //      WM_CHAR, (WCHAR)w[0], MakeLp(key->scanCode, key->flags));
-        w[1] = w[0];
-        return 0;
-      }
-	}
-	// Key is of no interest to us.
-	// Pass key back to OS to do as it pleases.
-	return  CallNextHookEx(hook,ncode,wparam,lparam);
+          // Macro Converts vkey to UCS (0XHHHH) accent_char.
+          UCS(accent_char);
+          accent_char[1]=L'\0';
+          
+          //FIXME remove type casting.
+          w[0] = put_accent ( (unsigned int)w[1], (unsigned char)accent_char[0] );  
+          if (w[0] == w[1])
+          {
+            return NO_KEY;              // Could not put the accent, do nothing
+          } 
+          else
+          {
+            backspace();                // Delete previous character.
+            PRINT(w[0]);                // and print accented character
+            w[1] = w[0];
+            return NO_KEY;      // We have printed our own do not pass key to OS
+          }
+        } // -- end if accent_keys
+      } // -- end for i
+      // Key is of no interest to us.
+      // Pass key back to OS to do as it pleases.
+      return NEXT_HOOK; 
+	} // End if HC_KEY
+	return 0;  // Needed to stop the stupid gcc compiler warnings.
 } // --- End of hook handler
 
-/*-----------------------------------------------------------------------------
- *  
- *     Chek if character is in the hooked group                   
- *     Return: hooked_key                                         
- *     0: Not a trapped key.                                      
- *     1: Vowel or special symbol. ( See hooker.h)                
- *     2: A post placed accent key. (/, \, =, ~, ], [, |, \", -, ^)
- *     3: A movement key.                                         
- *
- *-----------------------------------------------------------------------------*/
-int hooked_key(DWORD test_key)
-{
-  int i = 0;
-  do {
-        if ( vowels[i] == test_key) return 1;
-        i++;
-  } while (vowels[i] != 0X0);
-
-  i=0;
-  do {
-        if ( accent_keys[i] == test_key ) 
-        {
-          if ( (test_key == 0X36) || (test_key == 0XC0) )
-          { 
-            if (ks[VK_SHIFT] & 0X80)
-            { 
-              return 2; 
-            }
-            else
-            {
-              break;
-            }
-          }
-          return 2;
-        }
-        i++;
-  } while (accent_keys[i] != 0X0);
-
-  i=0;
-  do {
-        if ( movement[i] == test_key) return 3;
-        i++;
-  } while (movement[i] != VK_DELETE);
-  return 0; 
-}
 
 /*-----------------------------------------------------------------------------
  *     Delete previous character 
- *-----------------------------------------------------------------------------*/
+ *----------------------------------------------------------------------------*/
 BOOL backspace()
 {
    keybd_event( VK_BACK, 0X0E, 0, 0);  // key down
@@ -275,7 +260,7 @@ BOOL backspace()
 
 /*-----------------------------------------------------------------------------
  *         Construct a valid lParam    
- *-----------------------------------------------------------------------------*/
+ *----------------------------------------------------------------------------*/
 LPARAM MakeLp(DWORD scancode, DWORD flags)
 {
   DWORD lp;

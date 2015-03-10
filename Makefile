@@ -3,14 +3,15 @@
 # Use with mingw-gcc under linux
 # Need texlive to build docs.
 #
-EXEC = palamedes.exe
-DLL = hooker.dll
-DOCS = palamedes-gr.pdf table-gr.pdf
+OUT_DIR = ../
+EXEC = $(OUT_DIR)palamedes.exe
+DLL = $(OUT_DIR)hooker.dll
+DOCS = $(OUT_DIR)palamedes-gr.pdf $(OUT_DIR)table-gr.pdf
 OBJS = palamedes/palamedes.o palamedes/dlg.o 
 
 WARNS = -Wall
 CC = /usr/bin/i686-pc-mingw32-g++
-TEX = xelatex -interaction=nonstopmode 
+TEX = xelatex -interaction=nonstopmode -output-directory=$(OUT_DIR) 
 
 # CFLAGS = -O3 -std=c99 -D UNICODE -D _UNICODE -D -D WINVER=0x500 $(WARNS) 
 # LDFLAGS = -s -lcomctl32 -Wl,--subsystem,windows
@@ -43,7 +44,7 @@ hooker/accentuate.o: hooker/accentuate.cpp
 $(DOCS): doc/palamedes-gr.tex doc/table-gr.tex
 	-$(TEX) ./doc/palamedes-gr.tex &> /dev/null
 	-$(TEX) ./doc/table-gr.tex &> /dev/null
-	-rm *.aux *.log
+	-rm $(OUT_DIR)*.aux $(OUT_DIR)*.log
 
 clean:
 	-rm $(EXEC) $(DLL) $(OBJS) $(DOCS) 

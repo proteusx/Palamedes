@@ -4,11 +4,15 @@
 /*             */
 /***************/
 
-// import dll header, defines imported functions
+// import dll header, 
+// Defines imported functions
 #include "../hooker/common.h"
 
+#define VERSION "1.0.0-GCC"
+
+
 //-----------------------
-// Resources
+//     Resources
 //-----------------------
 #define IDI_ICON_OFF 100
 #define IDI_ICON_ON 101
