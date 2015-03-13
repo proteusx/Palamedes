@@ -2,8 +2,8 @@
 
 ## Description 
 
-Palamedes is utility  useful to native Greek speakers and Greek scholars
-(Hellenists) who wish type traditional Greek (often referred to as
+Palamedes a is utility  useful to native Greek speakers and Greek scholars
+(Hellenists) who wish to type traditional Greek (often referred to as
 multi-accented or polytonic) under the Microsoft Windows Operating system (all
 versions post Windows XP).  This utility  allows the typing of multi-accented
 (polytonic) Greek text in the manner of writing by hand. Accents and
@@ -23,6 +23,8 @@ The main accent keys are as follows:
 |[             | Dasia (asper)
 |"             | Dialytika (diaeresis)
 |\|            | Ypogegrammeni (Iota subscript)
+
+For example to produce ᾄ we type a followed by any combination of the keys /]|
 
 Note: The function of the dead key (;) has been retained. 
 
