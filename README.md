@@ -37,11 +37,11 @@ The function of the dead key (;:), as used in monotonic Greek,
 has been retained. So the character **ά** can be entered with the keys
 ';a' or 'a/'.
 
-For detailed usage information and a more complete table of function of the
-keys see the documentation included in the package.
+For detailed usage information and a more complete table of the function of
+the keys see the documentation included in the package.
 
 Palamedes is written in C and it uses the Windows API hook mechanism to trap
-and modify the key press events when Greek is typed. Typing in other
+and modify key press events when Greek is typed. Typing in other
 languages is not affected and Palamedes ignores keys that does not know
 about.
 
