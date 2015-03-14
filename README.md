@@ -72,7 +72,7 @@ icon will appear in the notification area (systray).  Activate Palamedes
 from its systray icon, switch your keyboard to Greek, and you can start
 typing polytonic Greek. Note that you need at least one Unicode font that
 includes the glyphs (characters) in the Greek (0370-03FF) **and** the 
-Extended Greek range (1F00-1FFF). Examples of such fonts are Times New
+Extended Greek (1F00-1FFF) ranges. Examples of such fonts are Times New
 Roman, Palatino Linotype, Consolas and the DejaVu family.
 
 For more complete usage information see the documentation and cheat sheet.
