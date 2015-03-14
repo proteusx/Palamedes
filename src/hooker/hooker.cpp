@@ -157,20 +157,22 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
               case 0X41 : caps ? w[0] = 0X386 : w[0] = 0X3AC; break;  // A
               case 0X45 : caps ? w[0] = 0X388 : w[0] = 0X3AD; break;  // E
               case 0X48 : caps ? w[0] = 0X389 : w[0] = 0X3AE; break;  // H
+              case 0X4f : caps ? w[0] = 0X38C : w[0] = 0X3CC; break;  // O
+              case 0X56 : caps ? w[0] = 0X38F : w[0] = 0X3CE; break;  // V (Omega)
+                        
+                          // The next two may take dialytika or/and tonos           
               case 0X49 : switch (dead_key)                           // I
                           {                                
                             case 1: caps ? w[0] = 0X38A : w[0] = 0X3AF; break;
                             case 2: caps ? w[0] = 0X3AA : w[0] = 0X3CA; break;
                             case 3: w[0] = 0X390; break;
                           } break;
-              case 0X4f : caps ? w[0] = 0X38C : w[0] = 0X3CC; break;      // O
-              case 0X59 : switch (dead_key)                               // Y
+              case 0X59 : switch (dead_key)                           // Y
                           {
                             case 1: caps ? w[0] = 0X38E : w[0] = 0X3CD; break;
                             case 2: caps ? w[0] = 0X3AB : w[0] = 0X3CB; break;
                             case 3: w[0] = 0X3B0; break;
                           } break;
-              case 0X56 : caps ? w[0] = 0X38F : w[0] = 0X3CE; break; // V (Omega)
               //----------------------------------------------
               // Special symbols entered with the dead key.
               //----------------------------------------------
@@ -180,13 +182,13 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
               case 0X50 : caps ? w[0] = 0X3E1 : w[0] = 0X3E0; break;  // P (sampi)
               case 0X46 : caps ? w[0] = 0X3DC : w[0] = 0X3DD; break;  // F (digamma)
               case 0X34 : w[0] = 0X20AC; break;                       // $ (Euro)
-                        // next key (. or >) (this key is for ano teleia and  R. eisag )
+                        // next key (. or >) is for ano teleia or right eisag 
               case 0XBE : caps ? w[0] = 0XBB : w[0] = 0X387; break;   
               case 0X33 : caps ? w[0] = 0X375 : w[0] = 0X374; break;  // # (keraies)
               case 0XBC : if(caps) w[0] = 0XAB; else  return NEXT_HOOK; break; //< (L eisag.); 
               case 0XDE : w[0] = 0X1FBD; break;                        // ' Apostrophos
               case 0XBD : caps ? w[0] = 0X2014 : w[0] = 0X2013; break; // - (pavles)
-              // Return hook if no appropriate key is found
+                       // Return hook if no appropriate key is found
               default:    dead_key = 0; return NEXT_HOOK;  
             } // -- End case
             PRINT(w[0]);
