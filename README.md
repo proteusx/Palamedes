@@ -18,7 +18,7 @@ similar to the way we write by hand.  Only a few accent keys are used
 Palamedes also facilitates the typing of punctuation and other symbols used
 int the Greek script. 
 
-### The main accent keys are as follows:
+###### The main accent keys are as follows:
 
 | KEY          |     ACCENT          |
 |:------------:|:------------------- |
