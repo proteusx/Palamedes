@@ -5,20 +5,21 @@
 Palamedes is a utility  useful to native Greek speakers and Greek scholars
 (Hellenists) who wish to type traditional Greek (often referred to as
 multi-accented or polytonic) under the Microsoft Windows Operating system.
-All versions, post Windows XP, are supported.  
+All versions of Windows (post Windows XP) are supported.  
 
 This utility  allows the typing of multi-accented (polytonic) Greek text in
 the manner of writing by hand. Accents and breathings are typed after the
-vowels in any order without dead keys. In other words, first we type the
+vowels, in any order, without dead keys. In other words, first we type the
 letter and then we "decorate" it with the required accents. Typing
-multi-accented Greek is more intuitive this way because this method is
-similar to the way we write by hand.  Only a few accent keys are used
-(hence it is easier to memorize). 
+multi-accented Greek with Palamedes is more intuitive and it is similar to
+the way we write by hand. Furthermore, it easier to memorize the very few
+accent keys of Palamedes when compared with the 25+ key combinations needed
+by the official Microsoft Greek Polytonic keymap.
 
 Palamedes also facilitates the typing of punctuation and other symbols used
-int the Greek script. 
+in the Greek script. 
 
-###### The main accent keys are as follows:
+###### Table of the main accent keys
 
 | KEY          |     ACCENT          |
 |:------------:|:------------------- |
@@ -70,12 +71,17 @@ fast and unintrusive.  To use it, place the executable and its dll in the
 same directory and double click on `palamedes.exe`. If all is in order an
 icon will appear in the notification area (systray).  Activate Palamedes
 from its systray icon, switch your keyboard to Greek, and you can start
-typing polytonic Greek. Note that you need at least one Unicode font that
-includes the glyphs (characters) in the Greek (0370-03FF) **and** the 
-Extended Greek (1F00-1FFF) ranges. Examples of such fonts are Times New
-Roman, Palatino Linotype, Consolas and the DejaVu family.
+typing polytonic Greek. 
 
-For more complete usage information see the documentation and cheat sheet.
+Right click and '`Help`' on the Palamedes' icon, pops up a list of the keys
+and their effect. 
+
+Note that you need at least one Unicode font that includes the glyphs
+(characters) in the Greek (0370-03FF) **and** the Extended Greek
+(1F00-1FFF) ranges. Examples of such fonts are Times New Roman, Palatino
+Linotype, Consolas and the DejaVu family.
+
+For a complete usage information refer to the documentation.
 
 ## To Do
 
