@@ -60,9 +60,9 @@ To compile Palamedes you need **GNU make** and **MinGW GCC**.
 This will build the executable `palamedes.exe`, its hooking library
 `hooker.dll`, and the documentation. 
 
-With some modifications to the source files Palamedes can also be built with
-Microsoft Visual Studio. The required changes are shown in the  comments
-within the source files.
+Palamedes can also be built with Microsoft Visual Studio albeit with some
+modifications to the source files. These modifications are found commented
+out in the source files.
 
 ## Running Palamedes
 
@@ -73,7 +73,7 @@ icon will appear in the notification area (systray).  Activate Palamedes
 from its systray icon, switch your keyboard to Greek, and you can start
 typing polytonic Greek. 
 
-Right click and '`Help`' on the Palamedes' icon, pops up a list of the keys
+Right click and `Help` on the Palamedes' icon, pops up a list of the keys
 and their effect. 
 
 Note that you need at least one Unicode font that includes the glyphs
