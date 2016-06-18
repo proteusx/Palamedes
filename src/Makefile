@@ -1,8 +1,30 @@
 # Palamedes Makefile
+
 #
 # Use with mingw-gcc under linux
-# Need texlive to build docs.
+# Texlive is needed to build documentation.
 #
+
+ #########################
+ #                       #
+ # To compile for 32 bit #
+ #    Set ARCH = 32      #
+ #                       #
+ #########################
+
+
+ARCH = 64
+
+
+ifeq ($(ARCH),64) 
+	CC = /usr/bin/x86_64-w64-mingw32-g++
+  RC = /usr/bin/x86_64-w64-mingw32-windres
+else 
+	CC = /usr/bin/i686-pc-mingw32-g++
+	RC = /usr/bin/i686-pc-mingw32-windres
+endif
+
+
 OUT_DIR = ../
 EXEC = $(OUT_DIR)palamedes.exe
 DLL = $(OUT_DIR)hooker.dll
@@ -10,16 +32,23 @@ DOCS = $(OUT_DIR)palamedes-gr.pdf $(OUT_DIR)table-gr.pdf
 OBJS = palamedes/palamedes.o palamedes/dlg.o 
 
 WARNS = -Wall
-CC = /usr/bin/i686-pc-mingw32-g++
-TEX = xelatex -interaction=nonstopmode -output-directory=$(OUT_DIR) 
 
-# CFLAGS = -O3 -std=c99 -D UNICODE -D _UNICODE -D -D WINVER=0x500 $(WARNS) 
-# LDFLAGS = -s -lcomctl32 -Wl,--subsystem,windows
-CFLAGS = -O3 -D UNICODE -D _UNICODE -D WINVER=0x501 $(WARNS) 
-LDFLAGS = -s -Wl,--subsystem,windows
+# 32-bit
+CC = /usr/bin/i686-pc-mingw32-g++
 RC = /usr/bin/i686-pc-mingw32-windres
 
+# 64-bit
+# CC = /usr/bin/x86_64-w64-mingw32-g++
+# RC = /usr/bin/x86_64-w64-mingw32-windres
+
+TEX = xelatex -interaction=nonstopmode -output-directory=$(OUT_DIR) 
+
+# CFLAGS = -O3 -std=c99 -D UNICODE -D _UNICODE -D -D WINVER=0x501 $(WARNS) 
+# LDFLAGS = -s -lcomctl32 -Wl,--subsystem,windows
+CFLAGS = -O3 -D UNICODE -D _UNICODE -D WINVER=0x0601 $(WARNS) 
+LDFLAGS = -s -Wl,--subsystem,windows
 all: $(EXEC) $(DOCS)
+	$(info ================ Compiled for $(ARCH) bit ==============)
 
 $(EXEC): $(OBJS) $(DLL) 
 	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) $(DLL) -o $@

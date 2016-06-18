@@ -8,7 +8,7 @@
 // Defines imported functions
 #include "../hooker/common.h"
 
-#define VERSION "1.0.0-GCC"
+#define VERSION "1.1.0-GCC"
 
 
 //-----------------------
@@ -34,7 +34,7 @@
 //-----------------------
 // Function Prototypes
 //-----------------------
-BOOL CALLBACK DlgProc(HWND, UINT, WPARAM,  LPARAM );
+INT_PTR CALLBACK DlgProc(HWND, UINT, WPARAM,  LPARAM );
 void ShowContextMenu(HWND hWnd);
 
 

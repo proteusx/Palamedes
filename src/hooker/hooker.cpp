@@ -21,9 +21,9 @@
  *----------------------------------------------------------------------------*/
   // Uncomment if in Visual Studio
   // BOOL APIENTRY DllMain( HANDLE hModule, 
-int main( HANDLE hModule, 
-                       DWORD  ul_reason_for_call, 
-                       LPVOID lpReserved )
+int main( int hModule, 
+                       char **  ul_reason_for_call, 
+                       char ** lpReserved )
 {
     hinstance = (HINSTANCE)hModule;
     hook = NULL;
@@ -78,7 +78,7 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
       // Return unless Greek keyboard
       //----------------------------------
       localeID = GetKeyboardLayout(tid);
-      if (LOBYTE(LOWORD((DWORD)localeID)) != LANG_GREEK)  
+      if (LOBYTE(LOWORD((HKL)localeID)) != LANG_GREEK)  
         return  NEXT_HOOK;
       
       //----------------------------------

@@ -5,7 +5,7 @@
 Palamedes is a utility  useful to native Greek speakers and Greek scholars
 (Hellenists) who wish to type traditional Greek (often referred to as
 multi-accented or polytonic) under the Microsoft Windows Operating system.
-All versions of Windows (post Windows XP) are supported.  
+All versions of Windows (post Windows XP, 32 bit and 64 bit) are supported.  
 
 This utility  allows the typing of multi-accented (polytonic) Greek text in
 the manner of writing by hand. Accents and breathings are typed after the
@@ -49,9 +49,10 @@ about.
 
 ## Compiling
 
-To compile Palamedes you need **GNU make** and **MinGW GCC**. 
+To compile Palamedes you need [GNU Make](https://www.gnu.org/software/make/)
+and the [MinGW GCC](http://www.mingw.org/) compiler. 
 
-**Tex Live** is also needed to build the documentation and the cheat sheet.
+[Tex Live](https://www.tug.org/texlive/) is also needed to build the documentation and the cheat sheet.
 
     git clone https://github.com/proteusx/palamedes
     cd palamedes/src
@@ -66,12 +67,14 @@ out in the source files.
 
 ## Running Palamedes
 
-Palamedes has been tested with Windows XP, Vista, 7 and 8, is extremely
-fast and unintrusive.  To use it, place the executable and its dll in the
-same directory and double click on `palamedes.exe`. If all is in order an
-icon will appear in the notification area (systray).  Activate Palamedes
-from its systray icon, switch your keyboard to Greek, and you can start
-typing polytonic Greek. 
+Palamedes has been tested with Windows XP, Vista, 7, 8 and 10, is extremely
+fast and unintrusive and fully portable (i.e. it installs nothing in the system
+directories not it affects the registry in any way).  To use it, place the
+executable and its dll in the same directory (preferably in \Program
+Files\palamedes\ and create a Desktop shortcut for palamedes.exe) and double
+click on `palamedes.exe`. If all is in order an icon will appear in the
+Notification Area (Systray).  Activate Palamedes from its systray icon, switch
+your keyboard to Greek, and you can start typing polytonic Greek. 
 
 Right click and `Help` on the Palamedes' icon, pops up a list of the keys
 and their effect. 
