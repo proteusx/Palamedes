@@ -12,12 +12,12 @@ the manner of writing by hand. Accents and breathings are typed after the
 vowels, in any order, without dead keys. In other words, first we type the
 letter and then we "decorate" it with the required accents. Typing
 multi-accented Greek with Palamedes is more intuitive and it is similar to
-the way we write by hand. Furthermore, it easier to memorize the very few
+the way we write by hand. Furthermore, it is easier to memorize the very few
 accent keys of Palamedes when compared with the 25+ key combinations needed
 by the official Microsoft Greek Polytonic keymap.
 
 Palamedes also facilitates the typing of punctuation and other symbols used
-in the Greek script. 
+in the Greek script (e.g. ϗ,Ϟ,Ϡ,ϙ,€,·). 
 
 ###### Table of the main accent keys
 
@@ -69,7 +69,7 @@ out in the source files.
 
 Palamedes has been tested with Windows XP, Vista, 7, 8 and 10, is extremely
 fast and unintrusive and fully portable (i.e. it installs nothing in the system
-directories not it affects the registry in any way).  To use it, place the
+directories nor it affects the registry in any way).  To use it, place the
 executable and its dll in the same directory (preferably in \Program
 Files\palamedes\ and create a Desktop shortcut for palamedes.exe) and double
 click on `palamedes.exe`. If all is in order an icon will appear in the
