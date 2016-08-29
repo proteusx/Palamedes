@@ -6,7 +6,7 @@
  *    Description:  DLL header 
  *                  Defines Macros, and variables for hooker.cpp
  *
- *        Version:  1.0.0
+ *        Version:  1.0.1
  *        Created:  10/03/2015 
  *       Compiler:  gcc
  *

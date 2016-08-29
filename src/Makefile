@@ -24,6 +24,7 @@ else
 	RC = /usr/bin/i686-pc-mingw32-windres
 endif
 
+TEX = xelatex -interaction=nonstopmode -output-directory=$(OUT_DIR) 
 
 OUT_DIR = ../
 EXEC = $(OUT_DIR)palamedes.exe
@@ -33,20 +34,14 @@ OBJS = palamedes/palamedes.o palamedes/dlg.o
 
 WARNS = -Wall
 
-# 32-bit
-CC = /usr/bin/i686-pc-mingw32-g++
-RC = /usr/bin/i686-pc-mingw32-windres
 
-# 64-bit
-# CC = /usr/bin/x86_64-w64-mingw32-g++
-# RC = /usr/bin/x86_64-w64-mingw32-windres
-
-TEX = xelatex -interaction=nonstopmode -output-directory=$(OUT_DIR) 
 
 # CFLAGS = -O3 -std=c99 -D UNICODE -D _UNICODE -D -D WINVER=0x501 $(WARNS) 
 # LDFLAGS = -s -lcomctl32 -Wl,--subsystem,windows
 CFLAGS = -O3 -D UNICODE -D _UNICODE -D WINVER=0x0601 $(WARNS) 
 LDFLAGS = -s -Wl,--subsystem,windows
+
+
 all: $(EXEC) $(DOCS)
 	$(info ================ Compiled for $(ARCH) bit ==============)
 
@@ -78,4 +73,3 @@ $(DOCS): doc/palamedes-gr.tex doc/table-gr.tex
 clean:
 	-$(RM) $(EXEC) $(DLL) $(OBJS) $(DOCS) 
 	-$(RM) hooker/hooker.o hooker/accentuate.o
-#	-$(RM) *.aux *.log

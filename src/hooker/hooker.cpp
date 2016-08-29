@@ -5,7 +5,7 @@
  *
  *    Description:  hook, unhook and keyboard handler functions
  *
- *        Version:  1.0.0
+ *        Version:  1.0.2
  *        Created:  10/03/2015 
  *       Revision:  none
  *       Compiler:  gcc
@@ -19,13 +19,10 @@
 /*-----------------------------------------------------------------------------
  *                        DLL entry point.   
  *----------------------------------------------------------------------------*/
-  // Uncomment if in Visual Studio
-  // BOOL APIENTRY DllMain( HANDLE hModule, 
-int main( int hModule, 
-                       char **  ul_reason_for_call, 
-                       char ** lpReserved )
+   BOOL APIENTRY DllMain( HINSTANCE hinstance, 
+                            char **  ul_reason_for_call, 
+                            char ** lpReserved )
 {
-    hinstance = (HINSTANCE)hModule;
     hook = NULL;
     return TRUE;
 }  
