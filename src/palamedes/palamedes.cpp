@@ -5,9 +5,9 @@
  *
  *    Description:  Polytonic Greek Typing Utility
  *
- *        Version:  1.0.0
+ *        Version:  1.0.1
  *        Created:  28/04/2013 
- *        Modified  10/03/2015
+ *        Modified  29/08/2016
  *       Compiler:  gcc
  *
  * =============================================================================

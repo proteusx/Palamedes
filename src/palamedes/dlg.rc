@@ -3,8 +3,8 @@
 // File Info
 //-------------------
 1 VERSIONINFO
- FILEVERSION 1,0,0,0
- PRODUCTVERSION 1,0,0,0
+ FILEVERSION 1,0,1,0
+ PRODUCTVERSION 1,0,1,0
  FILEFLAGSMASK 0x17L
  FILEFLAGS 0x0L
  FILEOS 0x4L
@@ -17,9 +17,9 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "proteuss@softhome.net"
             VALUE "FileDescription", "Polytonic Greek Typing Aid"
-            VALUE "FileVersion", "1,0,0"
+            VALUE "FileVersion", "1,0,1"
             VALUE "InternalName", "Palamedes-MinGW32"
-            VALUE "LegalCopyright", "©2013 - 2015 Proteus"
+            VALUE "LegalCopyright", "©2013 - 2016 Proteus"
             VALUE "OriginalFilename", "palamedes.exe"
             VALUE "ProductName", "Palamedes"
             VALUE "ProductVersion", "1,0,0"
