@@ -20,14 +20,25 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	                )
 {
   MSG msg;
-  if (FindWindow(NULL, LPCSTR("Palamedes"))) return 0;
+
+  // Only one instance allowed
+  if (FindWindow(NULL, dlg_name)) return 0;
+
+  // Create the dialogue
   hwnd = CreateDialog(  GetModuleHandle(NULL), 
                         MAKEINTRESOURCE(IDD_MAIN), NULL, 
                         DlgProc   );
+
+  // Load the red and green icons
   hicon_off = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_OFF));
   hicon_on = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_ON));
+
+  // Set the red icon - iddle state 
   SendMessage (hwnd, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM) hicon_off);
 
+  // Name the dialog window
+  SetWindowText(hwnd, dlg_name);
+  
   // SetWindowLong(hwnd, GWL_STYLE, 0);  // Remove all decorations
 
   //------------------------------------------------------

@@ -73,9 +73,9 @@ hooker/accentuate.o: hooker/accentuate.cpp
 $(DOCS): doc/palamedes-gr.tex doc/table-gr.tex
 	-$(TEX) ./doc/palamedes-gr.tex &> /dev/null
 	-$(TEX) ./doc/table-gr.tex &> /dev/null
-	-rm $(OUT_DIR)*.aux $(OUT_DIR)*.log
+	-$(RM) $(OUT_DIR)*.aux $(OUT_DIR)*.log
 
 clean:
-	-rm $(EXEC) $(DLL) $(OBJS) $(DOCS) 
-	-rm hooker/hooker.o hooker/accentuate.o
-#	-rm *.aux *.log
+	-$(RM) $(EXEC) $(DLL) $(OBJS) $(DOCS) 
+	-$(RM) hooker/hooker.o hooker/accentuate.o
+#	-$(RM) *.aux *.log

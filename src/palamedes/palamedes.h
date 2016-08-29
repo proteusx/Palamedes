@@ -41,6 +41,7 @@ void ShowContextMenu(HWND hWnd);
 //-----------------------
 // Global Vartiables
 //-----------------------
+const char dlg_name[] = "Palamedes";
 HINSTANCE hInstance;
 HWND hwnd;
 HHOOK hook;
