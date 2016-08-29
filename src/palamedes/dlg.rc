@@ -17,12 +17,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "proteuss@softhome.net"
             VALUE "FileDescription", "Polytonic Greek Typing Aid"
-            VALUE "FileVersion", "1,0,1"
+            VALUE "FileVersion", "1,0,2"
             VALUE "InternalName", "Palamedes-MinGW32"
             VALUE "LegalCopyright", "©2013 - 2016 Proteus"
             VALUE "OriginalFilename", "palamedes.exe"
             VALUE "ProductName", "Palamedes"
-            VALUE "ProductVersion", "1,0,0"
+            VALUE "ProductVersion", "1,0,2"
         END
     END
     BLOCK "VarFileInfo"
