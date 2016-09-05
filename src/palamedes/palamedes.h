@@ -8,7 +8,7 @@
 // Defines imported functions
 #include "../hooker/common.h"
 
-#define VERSION "1.0.2"
+#define VERSION "1.0.3"
 
 
 //-----------------------
@@ -41,12 +41,13 @@ void ShowContextMenu(HWND hWnd);
 //-----------------------
 // Global Vartiables
 //-----------------------
-const char dlg_name[] = "Palamedes";
 HINSTANCE hInstance;
 HWND hwnd;
 HHOOK hook;
 BOOL hooked = 0;
 HICON hicon_on, hicon_off; 
 NOTIFYICONDATA niData; 
+HANDLE h_mutex;
+LPCTSTR mutex_name = "Palamedes_0.1";
 
 

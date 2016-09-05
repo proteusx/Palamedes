@@ -5,7 +5,7 @@
  *
  *    Description:  hook, unhook and keyboard handler functions
  *
- *        Version:  1.0.2
+ *        Version:  1.0.3
  *        Created:  10/03/2015 
  *       Revision:  none
  *       Compiler:  gcc
@@ -179,6 +179,7 @@ HOOKDLL_API LRESULT CALLBACK hookproc(int ncode,WPARAM wparam,LPARAM lparam)
               case 0X50 : caps ? w[0] = 0X3E1 : w[0] = 0X3E0; break;  // P (sampi)
               case 0X46 : caps ? w[0] = 0X3DC : w[0] = 0X3DD; break;  // F (digamma)
               case 0X34 : w[0] = 0X20AC; break;                       // $ (Euro)
+              case 0X35 : w[0] = 0X2030; break;                       // $ (per 1000)
                         // next key (. or >) is for ano teleia or right eisag 
               case 0XBE : caps ? w[0] = 0XBB : w[0] = 0X387; break;   
               case 0X33 : caps ? w[0] = 0X375 : w[0] = 0X374; break;  // # (keraies)

@@ -65,6 +65,12 @@ Palamedes can also be built with Microsoft Visual Studio albeit with some
 modifications to the source files. These modifications are found commented
 out in the source files.
 
+### Precompiled binaries
+
+There are compressed [precompiled binaries](https://github.com/proteusx/Palamedes/releases)
+and documentation available for 32 and 64 bit windows. Download the latest version and extract
+in some convinient.
+
 ## Running Palamedes
 
 Palamedes has been tested with Windows XP, Vista, 7, 8 and 10, is extremely

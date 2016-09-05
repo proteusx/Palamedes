@@ -5,9 +5,9 @@
  *
  *    Description:  Polytonic Greek Typing Utility
  *
- *        Version:  1.0.1
+ *        Version:  1.0.3
  *        Created:  28/04/2013 
- *        Modified  29/08/2016
+ *       Modified:  05/09/2016
  *       Compiler:  gcc
  *
  * =============================================================================
@@ -21,8 +21,23 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 {
   MSG msg;
 
-  // Only one instance allowed
-  if (FindWindow(NULL, dlg_name)) return 0;
+   /*                                                             */
+   /*                                                             */
+   /*            Permit only one instance of the hook             */
+   /*                                                             */
+   /*            To do this we use an associated Mutex            */
+   /*     and test for its existence before running Palamedes     */
+   /*                                                             */
+   /*    If the mutex exists exit, else create the named mutex    */
+   /*     and keep it to prevent other instances from running     */
+   /*                 untill Palamedes is closed.                 */
+   /*                                                             */
+   /*                                                             */
+
+  h_mutex = OpenMutex(MUTEX_ALL_ACCESS, 0, mutex_name);
+
+  if (!h_mutex) h_mutex = CreateMutex(0, 0, mutex_name);
+    else return 0;
 
   // Create the dialogue
   hwnd = CreateDialog(  GetModuleHandle(NULL), 
@@ -36,8 +51,6 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
   // Set the red icon - iddle state 
   SendMessage (hwnd, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM) hicon_off);
 
-  // Name the dialog window
-  SetWindowText(hwnd, dlg_name);
   
   // SetWindowLong(hwnd, GWL_STYLE, 0);  // Remove all decorations
 
@@ -145,17 +158,18 @@ INT_PTR CALLBACK DlgProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam)
           {
             // The compiler concatenates succesive strings "......""......"
             // So VERSION will be concatenate with the rest of the message.
-            MessageBox(NULL,LPCSTR("     Palamedes\n\nPolytonic Typing Aid\n\nVersion: "VERSION),LPCSTR("About Palamedes"),MB_OK);
+            MessageBox(NULL,LPCSTR("       Palamedes\n\nPolytonic Typing Aid\n\nVersion: "VERSION),LPCSTR("About Palamedes"),MB_OK);
             return 0;
           }
         case ID_HELP: ShellExecute(NULL, NULL, 
-                          LPCSTR("C:\\Program Files\\palamedes\\table-gr.pdf"), 
+                          LPCSTR("table-gr.pdf"), 
                           NULL, NULL, SW_SHOWNORMAL); 
                       return 0;
       } //end switch buttonID
     } break;
     case WM_CLOSE: DestroyWindow(hwnd); return 1; break;
     case WM_DESTROY:
+        ReleaseMutex(h_mutex);           // Destroy the MUTEX
         Shell_NotifyIcon(NIM_DELETE, &niData);
         DestroyWindow(hwnd);
         PostQuitMessage(0);

@@ -66,8 +66,8 @@ unsigned char vowels[] = {
   // SPACE is trapped to enter accents on their own.
   /*  A     E     H     I     O     Y     V     R      SP    Q            */
      0X41, 0X45, 0X48, 0X49, 0X4F, 0X59, 0X56, 0X52,  0x20, 0X51,
-  /*  K     S     P     F     $     .<    #     ,<     '     -            */   
-     0X4B, 0X53, 0X50, 0X46, 0X34, 0XBE, 0X33, 0XBC, 0XDE, 0XBD  };
+  /*  K     S     P     F     $     %     .<    #     ,<     '     -      */   
+     0X4B, 0X53, 0X50, 0X46, 0X34, 0x35, 0XBE, 0X33, 0XBC, 0XDE, 0XBD  };
 
 unsigned char movement[] = { 
   // Movement keys are trapped to reset the temp buffer w[]
